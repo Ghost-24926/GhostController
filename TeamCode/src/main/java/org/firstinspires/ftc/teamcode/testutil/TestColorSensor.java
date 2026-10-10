@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode;
-import static android.service.autofill.Validators.and;
-import static com.sun.tools.doclint.Entity.and;
+package org.firstinspires.ftc.teamcode.testutil;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
