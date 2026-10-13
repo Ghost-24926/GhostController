@@ -19,7 +19,7 @@ public class FeedForwardCalculate {
         this.feedForwardCoefs = feedForwardCoefs;
     }
     public double calculate(){
-        output = (feedForwardCoefs.kV * target + feedForwardCoefs.kA);
+        output = (feedForwardCoefs.getkV() * target + feedForwardCoefs.getkA()  );
         return output;
     }
 }

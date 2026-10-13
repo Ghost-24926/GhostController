@@ -22,7 +22,7 @@ public class PIDOpMode extends LinearOpMode {
     FeedForwardCalculate feedForwardCalculate;
     PIDCalculate pidCalculate;
     float target = 0;
-    public static float kI, kP, kD, kV = 1 /95f, kA = 0.03f;
+    public static float kI, kP, kD, kV = 1 /6000f, kA;
 
     @Override
     public void runOpMode() throws InterruptedException {
