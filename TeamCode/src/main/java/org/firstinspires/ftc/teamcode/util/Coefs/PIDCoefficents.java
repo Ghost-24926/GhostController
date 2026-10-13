@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.util;
+package org.firstinspires.ftc.teamcode.util.Coefs;
 
 public class PIDCoefficents {
     private float kP, kI, kD;

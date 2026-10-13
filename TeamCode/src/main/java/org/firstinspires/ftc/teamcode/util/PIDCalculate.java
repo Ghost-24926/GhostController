@@ -1,77 +1,51 @@
 package org.firstinspires.ftc.teamcode.util;
 
-public class PIDCalculate{
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-    public class PIDCoefficents{
-        private float kP, kI, kD;
+import org.firstinspires.ftc.teamcode.util.Coefs.PIDCoefficents;
 
-        public float getkP() {
-            return kP;
-        }
+public class PIDCalculate {
 
-        public void setkP(float kP) {
-            this.kP = kP;
-        }
 
-        public float getkI() {
-            return kI;
-        }
-
-        public void setkI(float kI) {
-            this.kI = kI;
-        }
-
-        public float getkD() {
-            return kD;
-        }
-
-        public void setkD(float kD) {
-            this.kD = kD;
-        }
-
-        public PIDCoefficents(float kP, float kI, float kD) {
-            this.kP = kP;
-            this.kI = kI;
-            this.kD = kD;
-        }
-    }
-
-    PIDCoefficents pidCoefficents;
+    private PIDCoefficents pidCoefficents;
     private float integral;
     private float previousError;
-    private boolean firstUpdate = true;
+    float target;
+    float current;
+    float derivative = 0;
+    float error;
+    ElapsedTime elapsedTime;
 
-    public PIDCalculate(float kp, float ki, float kd) {
-        this.kp = kp;
-        this.ki = ki;
-        this.kd = kd;
+    public PIDCalculate(PIDCoefficents pidCoefficents) {
+        this.pidCoefficents = pidCoefficents;
+        elapsedTime = new ElapsedTime();
     }
-    public float calculate(float error, float dt) {
 
-        if (dt <= 0) {
-            throw new IllegalArgumentException("dt должен быть больше 0");
-        }
+    public float calculate() {
 
-        integral += error * dt;
+        error = target - current;
+        elapsedTime.reset();
+        integral += (float) (error * elapsedTime.milliseconds());
+        derivative = (float) ((error - previousError) / elapsedTime.milliseconds());
 
-        float derivative;
-
-        if (firstUpdate) {
-            derivative = 0.0F;
-        } else {
-            derivative = (error - previousError) / dt;
-        }
-        float u = kp * error + ki * integral + kd * derivative;
+        float u = pidCoefficents.getkP() * error + pidCoefficents.getkI() * integral + pidCoefficents.getkD() * derivative;
 
         previousError = error;
-        firstUpdate = false;
 
         return u;
     }
+    public void updateCoefs(PIDCoefficents pidCoefficents){
+        this.pidCoefficents = pidCoefficents;
+    }
+    public void updateTarget(float target){
+        this.target = target;
+    }
 
-    public void reset() {
-        integral = 0.0F;
-        previousError = 0.0F;
-        firstUpdate = true;
+    public float getError() {
+        return error;
+    }
+
+    public void updateCurrent(float current){
+        this.current = current;
     }
 }
