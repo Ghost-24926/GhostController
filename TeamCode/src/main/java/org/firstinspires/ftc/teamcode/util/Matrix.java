@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.util;
 
-import androidx.annotation.NonNull;
-
 public class Matrix {
     private double[][] matrix;
 
@@ -41,12 +39,13 @@ public class Matrix {
         }
     }
 
-    public void umnMatrixPerNumber(double a) {
+    public double umnMatrixPerNumber(double a) {
         for (int i = 0; i < this.matrix.length - 1; i++) {
             for (int j = 0; j < this.matrix[i].length - 1; j++) {
                 this.matrix[i][j] *= a;
             }
         }
+        return a;
     }
 
     public void delMatrixPerNumber(double a) {
