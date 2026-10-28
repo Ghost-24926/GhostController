@@ -1,38 +1,29 @@
 package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
 
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.util.Matrix;
+import org.firstinspires.ftc.teamcode.util.CalculateVelocity;
 
 @TeleOp
 public class CoordOpMode extends LinearOpMode {
-    DcMotor rb, lb, rf, lf;
-    Matrix matrix, matrix2;
+    DcMotorEx rb, lb, rf, lf;
+
+    GoBildaPinpointDriver pc;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
-        matrix = new Matrix(2,2);
-        matrix2 = new Matrix(2,2);
 
-        matrix.setMatrixElem(1,1,1);
-        matrix.setMatrixElem(1,2,2);
-        matrix.setMatrixElem(2,1,3);
-        matrix.setMatrixElem(2,2,4);
+        rb = hardwareMap.get(DcMotorEx.class, "rb");
+        lb = hardwareMap.get(DcMotorEx.class, "lb");
+        rf = hardwareMap.get(DcMotorEx.class, "rf");
+        lf = hardwareMap.get(DcMotorEx.class, "lf");
+        pc = hardwareMap.get(GoBildaPinpointDriver.class, "pc");
 
-        matrix2.setMatrixElem(1,1,5);
-        matrix2.setMatrixElem(1,2,6);
-        matrix2.setMatrixElem(2,1,7);
-        matrix2.setMatrixElem(2,2,8);
-
-        rb = hardwareMap.get(DcMotor.class, "rb");
-        lb = hardwareMap.get(DcMotor.class, "lb");
-        rf = hardwareMap.get(DcMotor.class, "rf");
-        lf = hardwareMap.get(DcMotor.class, "lf");
-
-        matrix.multMatrixPerMatrix(matrix2);
+        pc.resetPosAndIMU();
 
         waitForStart();
         while (opModeIsActive()) {
@@ -57,14 +48,18 @@ public class CoordOpMode extends LinearOpMode {
                 lf.setPower(0);
             }
 
+            CalculateVelocity velocity = new CalculateVelocity(pc, 0.024, 0.1, 0.1, 1, 1);
+            double vx = velocity.getVx();
+            double vy = velocity.getVy();
+            double vo = velocity.getOmega();
+
             telemetry.addData("rb", rb.getCurrentPosition());
             telemetry.addData("lb", lb.getCurrentPosition());
             telemetry.addData("rf", rf.getCurrentPosition());
             telemetry.addData("lf", lf.getCurrentPosition());
-            telemetry.addData("1,1", matrix.getMatrix()[0][0]);
-            telemetry.addData("1,2", matrix.getMatrix()[0][1]);
-            telemetry.addData("2,1", matrix.getMatrix()[1][0]);
-            telemetry.addData("2,2", matrix.getMatrix()[1][1]);
+            telemetry.addData("vx", vx);
+            telemetry.addData("vy", vy);
+            telemetry.addData("vo", vo);
             telemetry.update();
         }
     }

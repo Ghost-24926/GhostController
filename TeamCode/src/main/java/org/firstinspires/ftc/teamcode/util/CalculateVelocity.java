@@ -1,9 +1,10 @@
-package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
+package org.firstinspires.ftc.teamcode.util;
 
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-public class calculateVelocity{
+public class CalculateVelocity {
     GoBildaPinpointDriver pinpoint;
     double radius, oldHeading;
     double xCoord;
@@ -21,7 +22,7 @@ public class calculateVelocity{
 
 
 
-    public calculateVelocity(GoBildaPinpointDriver pinpoint, double radius, double y1, double x2, int xSgn, int ySgn) {
+    public CalculateVelocity(GoBildaPinpointDriver pinpoint, double radius, double y1, double x2, int xSgn, int ySgn) {
         this.pinpoint = pinpoint;
         this.y1 = y1;
         this.x2 = x2;
@@ -33,7 +34,7 @@ public class calculateVelocity{
         xCoord = pinpoint.getEncoderX();
         yCoord = pinpoint.getEncoderY();
 
-        double newHeading = pinpoint.getHeading();
+        double newHeading = pinpoint.getHeading(AngleUnit.RADIANS);
         oldHeading = newHeading;
         long newTime = System.nanoTime();
         oldTime = newTime;
@@ -42,7 +43,7 @@ public class calculateVelocity{
         pinpoint.update();
 
         int newX = pinpoint.getEncoderX();
-        double heading = pinpoint.getHeading();
+        double heading = pinpoint.getHeading(AngleUnit.RADIANS);
         long newTime = System.nanoTime();
         dt = (newTime - oldTime);
 
@@ -59,7 +60,7 @@ public class calculateVelocity{
         pinpoint.update();
 
         int newY = pinpoint.getEncoderY();
-        double heading = pinpoint.getHeading();
+        double heading = pinpoint.getHeading(AngleUnit.RADIANS);
         long newTime = System.nanoTime();
         dt = (newTime - oldTime);
 
@@ -75,7 +76,7 @@ public class calculateVelocity{
     public double getOmega(){
         pinpoint.update();
 
-        double heading = pinpoint.getHeading();
+        double heading = pinpoint.getHeading(AngleUnit.RADIANS);
         long newTime = System.nanoTime();
 
         dt = (newTime - oldTime);

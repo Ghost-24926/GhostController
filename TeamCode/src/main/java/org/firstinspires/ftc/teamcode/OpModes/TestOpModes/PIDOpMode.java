@@ -22,7 +22,7 @@ public class PIDOpMode extends LinearOpMode {
     FeedForwardCalculate feedForwardCalculate;
     PIDCalculate pidCalculate;
     float target = 0;
-    public static float kI, kP, kD, kV = 1 /6000f, kA;
+    public static float kI, kP, kD, kV = 1 /312f, kA;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -73,7 +73,7 @@ public class PIDOpMode extends LinearOpMode {
                     sleep(300);
                 }
             }
-            pidCalculate.updateCurrent((float) (l.getVelocity()/28*60));
+            pidCalculate.updateCurrent((float) (l.getVelocity()/28/19.2*60));
             pidCalculate.updateTarget(target);
             feedForwardCalculate.setTarget(target);
             l.setPower(pidCalculate.calculate() + feedForwardCalculate.calculate());
