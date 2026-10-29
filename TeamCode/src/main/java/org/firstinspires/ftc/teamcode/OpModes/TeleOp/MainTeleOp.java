@@ -9,12 +9,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.util.CalculateVelocity;
 import org.firstinspires.ftc.teamcode.util.Matrix;
+import org.firstinspires.ftc.teamcode.util.WheelVelocity;
 
 @TeleOp
-public class MainTeleOp extends LinearOpMode{
+public class MainTeleOp extends LinearOpMode {
     DcMotor lf, rf, lb, rb;
     GoBildaPinpointDriver pc;
-    Matrix matrix1 = new Matrix(4,3), matrix2 = new Matrix(3,1);
+    Matrix matrix = new Matrix(4, 1);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -27,57 +28,50 @@ public class MainTeleOp extends LinearOpMode{
         rf.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.REVERSE);
         lb.setDirection(DcMotor.Direction.FORWARD);
-        matrix1.setMatrixElem(1,1,1);
-        matrix1.setMatrixElem(1,2,2);
-        matrix1.setMatrixElem(1,3,3);
-        matrix1.setMatrixElem(2,1,4);
-        matrix1.setMatrixElem(2,2,5);
-        matrix1.setMatrixElem(2,3,6);
-        matrix1.setMatrixElem(3,1,7);
-        matrix1.setMatrixElem(3,2,8);
-        matrix1.setMatrixElem(3,3,9);
-        matrix1.setMatrixElem(4,1,10);
-        matrix1.setMatrixElem(4,2,11);
-        matrix1.setMatrixElem(4,3,12);
-        matrix2.setMatrixElem(1,1,2);
-        matrix2.setMatrixElem(2,1,6);
-        matrix2.setMatrixElem(3,1,7);
-        matrix1.multMatrixPerMatrix(matrix2);
-
+        lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry.addLine("ya gotov sosat'");
         telemetry.update();
+        CalculateVelocity velocity = new CalculateVelocity(pc, 0.024, 0.1, 0.1, 1, 1);
+        WheelVelocity wheelVelocity = new WheelVelocity(20, 20, 0.053);
+
 
         waitForStart();
 
-        while(opModeIsActive()){
+        while (opModeIsActive()) {
             float x = gamepad1.left_stick_x;
             float y = -gamepad1.left_stick_y;
             float r = -gamepad1.left_trigger + gamepad1.right_trigger;
             move(x, y, r);
-
-            for (int i = 0; i < matrix1.getMatrix().length; i++){
-                for (int j = 0; j < matrix1.getMatrix()[i].length; j++){
-                    telemetry.addData(i + "" + j, matrix1.getMatrix()[i][j]);
-                }
-            }
-
-            CalculateVelocity velocity = new CalculateVelocity(pc, 0.024, 0.1, 0.1, 1, 1);
             double vx = velocity.getVx();
             double vy = velocity.getVy();
             double vo = velocity.getOmega();
+            matrix = wheelVelocity.omegasMat(vx, vy, vo);
+
+
+            for (int i = 0; i < matrix.getMatrix().length; i++) {
+                for (int j = 0; j < matrix.getMatrix()[i].length; j++) {
+                    telemetry.addData(i + "" + j, matrix.getMatrix()[i][j]);
+                }
+            }
+
             telemetry.addData("vx", vx);
             telemetry.addData("vy", vy);
             telemetry.addData("vo", vo);
+            telemetry.addData("r", 1 / wheelVelocity.r);
             telemetry.update();
 
         }
 
     }
-    public void move(float x, float y, float r){
-        float lfPower = x+y+r;
-        float rfPower = -x+y-r;
-        float lbPower = -x+y+r;
-        float rbPower = x+y-r;
+
+    public void move(float x, float y, float r) {
+        float lfPower = x + y + r;
+        float rfPower = -x + y - r;
+        float lbPower = -x + y + r;
+        float rbPower = x + y - r;
 
         lf.setPower(lfPower);
         rf.setPower(rfPower);

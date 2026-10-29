@@ -9,10 +9,6 @@ public class CalculateVelocity {
     double radius, oldHeading;
     double xCoord;
     double yCoord;
-    double angleCoord;
-    double deltaTheta1;
-    double deltaTetha2;
-    double deltaHeading;
     double y1;
     double x2;
     double metersPerTick;

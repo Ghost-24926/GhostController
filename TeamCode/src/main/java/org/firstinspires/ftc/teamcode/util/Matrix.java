@@ -28,8 +28,8 @@ public class Matrix {
     }
 
     public void minusMatrix(Matrix matrix) {
-        for (int i = 0; i < this.matrix.length - 1; i++) {
-            for (int j = 0; j < this.matrix[i].length - 1; j++) {
+        for (int i = 0; i <= this.matrix.length - 1; i++) {
+            for (int j = 0; j <= this.matrix[i].length - 1; j++) {
                 if (matrix.getMatrix().length - 1 < i) {
                     if (matrix.getMatrix()[i].length - 1 < j) {
                         this.matrix[i][j] -= matrix.getMatrix()[i][j];
@@ -40,8 +40,8 @@ public class Matrix {
     }
 
     public double umnMatrixPerNumber(double a) {
-        for (int i = 0; i < this.matrix.length - 1; i++) {
-            for (int j = 0; j < this.matrix[i].length - 1; j++) {
+        for (int i = 0; i <= this.matrix.length - 1; i++) {
+            for (int j = 0; j <= this.matrix[i].length - 1; j++) {
                 this.matrix[i][j] *= a;
             }
         }
@@ -49,14 +49,14 @@ public class Matrix {
     }
 
     public void delMatrixPerNumber(double a) {
-        for (int i = 0; i < this.matrix.length - 1; i++) {
-            for (int j = 0; j < this.matrix[i].length - 1; j++) {
+        for (int i = 0; i <= this.matrix.length - 1; i++) {
+            for (int j = 0; j <= this.matrix[i].length - 1; j++) {
                 this.matrix[i][j] /= a;
             }
         }
     }
 
-    public void multMatrixPerMatrix(Matrix matrix){
+    public Matrix multMatrixPerMatrix(Matrix matrix) {
         double[][] a = this.matrix;
         double[][] b = matrix.getMatrix();
         int n = a.length;
@@ -69,15 +69,22 @@ public class Matrix {
         }
 
         double[][] result = new double[n][p];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < p; j++){
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < p; j++) {
                 double s = 0;
-                for(int k = 0; k < m; k++){
+                for (int k = 0; k < m; k++) {
                     s += a[i][k] * b[k][j];
                 }
                 result[i][j] = s;
             }
         }
-        this.matrix = result;
+        Matrix res = new Matrix(n, p);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < p; j++) {
+                res.setMatrixElem(i+1, j+1, result[i][j]);
+            }
+        }
+        return res;
     }
 }
