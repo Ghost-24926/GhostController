@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.util;
 
 public class WheelVelocity {
     public double l, b, r;
-    Matrix matrixR = new Matrix(4,3), matrixV = new Matrix(3,1), matrixO = new Matrix(4,1);
+    Matrix matrixR = new Matrix(4,3), matrixV = new Matrix(3,1);
 
     public WheelVelocity(double l, double b, double r) {
         this.l = l;
