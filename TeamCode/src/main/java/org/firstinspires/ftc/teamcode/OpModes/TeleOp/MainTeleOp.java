@@ -37,7 +37,7 @@ public class MainTeleOp extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry.addLine("ya gotov sosat'");
         telemetry.update();
-        CalculateVelocity velocity = new CalculateVelocity(pc, 0.024, 0.1, 0.1, 1, -1);
+        CalculateVelocity velocity = new CalculateVelocity(pc, 0.024, 0.025, 0.012, 1, -1);
         WheelVelocity wheelVelocity = new WheelVelocity(0.1675, 0.1225, 0.053);
 
 
