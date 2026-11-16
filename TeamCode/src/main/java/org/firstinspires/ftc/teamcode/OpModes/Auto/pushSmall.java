@@ -25,17 +25,32 @@ public class pushSmall extends LinearOpMode {
         lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        while (opModeInInit()) {
+            sounds[0] = "kolya";
+            SoundPlayer.PlaySoundParams par = new SoundPlayer.PlaySoundParams();
+            par.loopControl = 0;
+            int a = this.hardwareMap.appContext.getResources().getIdentifier(sounds[0], "raw", hardwareMap.appContext.getPackageName());
+            playing = false;
+            if (gamepad1.dpad_right) {
+                SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, a, par, null, new Runnable() {
+                    @Override
+                    public void run() {
+                        playing = true;
+                    }
+                });
+                sleep(300);
+            }
+        }
+
         waitForStart();
 
-        zov.setPower(-0.8);
-        sleep(300);
-        zov.setPower(0);
 
         rf.setPower(0.5);
         lb.setPower(0.5);
         rb.setPower(0.5);
         lf.setPower(0.5);
-        sleep(500);
+        sleep(300);
         rf.setPower(0);
         lb.setPower(0);
         rb.setPower(0);
