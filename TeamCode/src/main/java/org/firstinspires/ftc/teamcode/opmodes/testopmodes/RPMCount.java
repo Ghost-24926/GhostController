@@ -1,13 +1,11 @@
-package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
+package org.firstinspires.ftc.teamcode.opmodes.testopmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
-public class rpmCount extends LinearOpMode {
+public class RPMCount extends LinearOpMode {
     DcMotorEx siska;
 
 

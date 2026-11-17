@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp
 
-public class testmotor extends LinearOpMode {
+public class TestMotor extends LinearOpMode {
     DcMotor siska;
 
     @Override

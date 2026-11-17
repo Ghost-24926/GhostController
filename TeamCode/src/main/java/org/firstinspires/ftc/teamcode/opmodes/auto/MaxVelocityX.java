@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.Auto;
+package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.util.CalculateVelocity;
 @Autonomous
-public class maxVelocityOm extends LinearOpMode {
+public class MaxVelocityX extends LinearOpMode {
     DcMotor lf, rf, lb, rb, zov;
     GoBildaPinpointDriver pc;
     @Override
@@ -28,7 +28,7 @@ public class maxVelocityOm extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         CalculateVelocity velocity = new CalculateVelocity(pc, 0.024, 0.025, 0.012, 1, -1);
         waitForStart();
-        double vo = velocity.getOmega();
+        double vx = velocity.getVx();
 
         rf.setPower(-1);
         lb.setPower(1);
@@ -36,7 +36,7 @@ public class maxVelocityOm extends LinearOpMode {
         lf.setPower(1);
         sleep(5000);
 
-        telemetry.addData("vx", vo);
+        telemetry.addData("vx", vx);
         telemetry.update();
     }
 }

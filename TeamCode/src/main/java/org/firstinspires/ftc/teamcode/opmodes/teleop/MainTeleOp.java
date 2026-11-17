@@ -1,13 +1,10 @@
-package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
-
-import static com.sun.tools.doclint.Entity.or;
+package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.util.CalculateVelocity;
 import org.firstinspires.ftc.teamcode.util.Matrix;
 import org.firstinspires.ftc.teamcode.util.WheelVelocity;

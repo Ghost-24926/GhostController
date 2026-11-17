@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
+package org.firstinspires.ftc.teamcode.opmodes.testopmodes;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

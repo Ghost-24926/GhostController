@@ -1,12 +1,11 @@
-package org.firstinspires.ftc.teamcode.OpModes.TestOpModes;
+package org.firstinspires.ftc.teamcode.opmodes.testopmodes;
 
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous
-public class kolyaOpMode extends LinearOpMode {
+public class KolyaOpMode extends LinearOpMode {
     String[] sounds = new String[1];
     boolean playing = false;
 

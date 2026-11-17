@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.OpModes.Auto;
+package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 @Autonomous
-public class pushSmall extends LinearOpMode {
+public class PushSmall extends LinearOpMode {
     DcMotor lf, rf, lb, rb, zov;
     String[] sounds = new String[1];
     boolean playing = false;
