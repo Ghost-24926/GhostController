@@ -30,7 +30,7 @@ public class CalculateVelocity {
         this.metersPerTick = 2.0 * Math.PI*radius/28;
     }
     public double getVx(){
-//        pinpoint.update();
+        pinpoint.update();
 
         int newX = pinpoint.getEncoderX();
         double heading = pinpoint.getHeading(AngleUnit.RADIANS);
@@ -47,7 +47,7 @@ public class CalculateVelocity {
         return deltaX/dt;
     }
     public double getVy(){
-//        pinpoint.update();
+        pinpoint.update();
 
         int newY = pinpoint.getEncoderY();
         double heading = pinpoint.getHeading(AngleUnit.RADIANS);
@@ -65,7 +65,7 @@ public class CalculateVelocity {
 
     }
     public double getOmega() throws InterruptedException {
-//        pinpoint.update();
+        pinpoint.update();
 
         double heading = pinpoint.getHeading(AngleUnit.RADIANS);
         long newTime = System.nanoTime();
@@ -73,18 +73,18 @@ public class CalculateVelocity {
 
 
         dt = (newTime - oldTimeO) * Math.pow(10, -9);
-        for (int i = 0; i < 10; i++){
-            LOGGER.warning("rev pidori");
-        }
+//        for (int i = 0; i < 10; i++){
+//            LOGGER.warning("rev pidori");
+//        }
 
 
         double deltaHeading = heading - oldHeadingO;
         oldHeadingO = heading;
         oldTimeO = System.nanoTime();
-        LOGGER.info(Double.toString(dt) + " dt");
-        LOGGER.info(Double.toString(deltaHeading)+ " dH");
-        LOGGER.info(Double.toString(heading)+ " H");
-        LOGGER.info(Double.toString(oldHeadingO)+ " oH");
+//        LOGGER.info(Double.toString(dt) + " dt");
+//        LOGGER.info(Double.toString(deltaHeading)+ " dH");
+//        LOGGER.info(Double.toString(heading)+ " H");
+//        LOGGER.info(Double.toString(oldHeadingO)+ " oH");
         return deltaHeading/dt;
     }
 }
