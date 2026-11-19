@@ -9,11 +9,18 @@ import org.firstinspires.ftc.teamcode.util.CalculateVelocity;
 import org.firstinspires.ftc.teamcode.util.Matrix;
 import org.firstinspires.ftc.teamcode.util.WheelVelocity;
 
+/**
+ * Основной телеоп меканума.
+ * Левый стик задаёт vx/vy, триггеры — поворот. Кнопка A включает и выключает мотор zov.
+ * Параллельно с движением в телеметрию пишутся скорости с Pinpoint и угловые скорости колёс.
+ */
 @TeleOp
 public class MainTeleOp extends LinearOpMode {
     DcMotor lf, rf, lb, rb, zov;
     GoBildaPinpointDriver pc;
+    /** Сюда кладётся столбец угловых скоростей колёс. */
     Matrix matrix = new Matrix(4, 1);
+    /** 0 — zov выключен, 1 — крутится. Нужен, чтобы A работала как тумблер. */
     double a = 0;
 
     @Override
@@ -35,6 +42,7 @@ public class MainTeleOp extends LinearOpMode {
         telemetry.addLine("ya gotov sosat'");
         telemetry.update();
         CalculateVelocity velocity = new CalculateVelocity(pc, 0.024, 0.025, 0.012, 1, -1);
+        // Полубазы 167.5 и 122.5 мм, радиус колеса 53 мм.
         WheelVelocity wheelVelocity = new WheelVelocity(0.1675, 0.1225, 0.053);
 
 
@@ -43,6 +51,7 @@ public class MainTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             pc.update();
             float x = gamepad1.left_stick_x;
+            // Стик Y в SDK растёт вниз, для «вперёд» его переворачиваем.
             float y = -gamepad1.left_stick_y;
             float r = -gamepad1.left_trigger + gamepad1.right_trigger;
             move(x, y, r);
@@ -74,6 +83,10 @@ public class MainTeleOp extends LinearOpMode {
 
     }
 
+    /**
+     * Смешивание осей меканума без нормализации:
+     * каждое колесо получает свою комбинацию страйфа, езды вперёд и поворота.
+     */
     public void move(float x, float y, float r) {
         float lfPower = x + y + r;
         float rfPower = -x + y - r;

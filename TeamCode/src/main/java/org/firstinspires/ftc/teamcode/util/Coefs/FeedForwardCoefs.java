@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.util.Coefs;
 
+/** Коэффициенты прямой связи: kV — на единицу целевой скорости, kA — постоянное смещение. */
 public class FeedForwardCoefs {
     float kV, kA;
 

@@ -7,6 +7,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.util.CalculateVelocity;
 
+/**
+ * Поочерёдная проверка колёс и одометрии.
+ * A/B/Y/X крутят rb/lb/rf/lf на полную, пока кнопка зажата.
+ * В телеметрии — тики моторов и vx, vy, ω с Pinpoint.
+ */
 @TeleOp
 public class CoordOpMode extends LinearOpMode {
     DcMotorEx rb, lb, rf, lf;
@@ -48,6 +53,7 @@ public class CoordOpMode extends LinearOpMode {
                 lf.setPower(0);
             }
 
+            // Новый объект каждый цикл: прошлые тики и время обнуляются.
             CalculateVelocity velocity = new CalculateVelocity(pc, 0.024, 0.1, 0.1, 1, 1);
             double vx = velocity.getVx();
             double vy = velocity.getVy();

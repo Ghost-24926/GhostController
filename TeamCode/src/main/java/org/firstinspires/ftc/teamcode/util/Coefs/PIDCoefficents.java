@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.util.Coefs;
 
+/** Пропорциональный, интегральный и дифференциальный коэффициенты ПИД-регулятора. */
 public class PIDCoefficents {
     private float kP, kI, kD;
 

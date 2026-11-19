@@ -1,11 +1,17 @@
 
 package org.firstinspires.ftc.teamcode.util;
 
+/**
+ * Плотная матрица double. Индексы в set/get считаются с 1.
+ * Операции возвращают новую матрицу и не меняют исходную, кроме {@link #setMatrixElem}.
+ * Нужна кинематике колёс, одометрии и фильтру Калмана.
+ */
 public class Matrix {
     private final double[][] matrix;
     private final int rows;
     private final int cols;
 
+    /** Нулевая матрица заданного размера. Размеры должны быть положительными. */
     public Matrix(int rows, int cols) {
         if (rows <= 0 || cols <= 0) {
             throw new IllegalArgumentException("Matrix size must be positive: " + rows + "x" + cols);
@@ -49,6 +55,7 @@ public class Matrix {
         return matrix;
     }
 
+    /** Поэлементная сумма. Размеры должны совпадать. */
     public Matrix sumMatrix(Matrix other) {
         checkSameSize(other, "add");
         Matrix res = new Matrix(rows, cols);
@@ -60,6 +67,7 @@ public class Matrix {
         return res;
     }
 
+    /** Поэлементная разность this − other. */
     public Matrix minusMatrix(Matrix other) {
         checkSameSize(other, "subtract");
         Matrix res = new Matrix(rows, cols);
@@ -71,6 +79,7 @@ public class Matrix {
         return res;
     }
 
+    /** Умножение всех элементов на скаляр. */
     public Matrix umnMatrixPerNumber(double a) {
         Matrix res = new Matrix(rows, cols);
         for (int i = 0; i < rows; i++) {
@@ -81,6 +90,7 @@ public class Matrix {
         return res;
     }
 
+    /** Деление всех элементов на скаляр. Ноль запрещён. */
     public Matrix delMatrixPerNumber(double a) {
         if (a == 0) {
             throw new ArithmeticException("Division of matrix by zero");
@@ -88,6 +98,7 @@ public class Matrix {
         return umnMatrixPerNumber(1.0 / a);
     }
 
+    /** Произведение матриц. Число столбцов this должно равняться числу строк other. */
     public Matrix multMatrixPerMatrix(Matrix other) {
         if (this.cols != other.rows) {
             throw new IllegalArgumentException(
@@ -106,6 +117,7 @@ public class Matrix {
         return res;
     }
 
+    /** Транспонирование: элемент (i, j) переезжает в (j, i). */
     public Matrix transpose() {
         Matrix res = new Matrix(cols, rows);
         for (int i = 0; i < rows; i++) {
@@ -171,12 +183,14 @@ public class Matrix {
         return new Matrix(inv);
     }
 
+    /** Бросает исключение, если складывать или вычитать матрицы разного размера нельзя. */
     private void checkSameSize(Matrix other, String op) {
         if (this.rows != other.rows || this.cols != other.cols) {
             throw new IllegalArgumentException(
                     "Cannot " + op + " " + rows + "x" + cols + " and " + other.rows + "x" + other.cols);
         }
     }
+    /** Единичная матрица n×n. */
     public static Matrix identity(int n) {
         Matrix res = new Matrix(n, n);
         for (int i = 0; i < n; i++) {

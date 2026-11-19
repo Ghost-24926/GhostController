@@ -4,10 +4,17 @@ import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+/**
+ * Короткий выезд вперёд на 300 мс мощностью 0.5, затем ожидание.
+ * И в init, и после старта dpad вправо проигрывает raw-звук "kolya".
+ */
 @Autonomous
 public class PushSmall extends LinearOpMode {
     DcMotor lf, rf, lb, rb, zov;
+    /** Имя ресурса в res/raw, который ищем через getIdentifier. */
     String[] sounds = new String[1];
+    /** Ставится в true колбэком, когда плеер закончил звук. */
     boolean playing = false;
 
     @Override
@@ -26,6 +33,7 @@ public class PushSmall extends LinearOpMode {
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        // До старта матча можно проверить звук, не трогая привод.
         while (opModeInInit()) {
             sounds[0] = "kolya";
             SoundPlayer.PlaySoundParams par = new SoundPlayer.PlaySoundParams();
@@ -39,6 +47,7 @@ public class PushSmall extends LinearOpMode {
                         playing = true;
                     }
                 });
+                // Пауза, чтобы удержание кнопки не запускало звук каждый цикл.
                 sleep(300);
             }
         }
@@ -46,6 +55,7 @@ public class PushSmall extends LinearOpMode {
         waitForStart();
 
 
+        // Короткий толчок всеми колёсами вперёд.
         rf.setPower(0.5);
         lb.setPower(0.5);
         rb.setPower(0.5);

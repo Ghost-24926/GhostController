@@ -6,6 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.util.CalculateVelocity;
+
+/**
+ * Замер продольной скорости vx.
+ * Робот 5 секунд едет на полной мощности, в телеметрию попадает vx,
+ * посчитанная один раз сразу после старта.
+ */
 @Autonomous
 public class MaxVelocityX extends LinearOpMode {
     DcMotor lf, rf, lb, rb, zov;

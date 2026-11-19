@@ -6,6 +6,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.util.CalculateVelocity;
+
+/**
+ * Замер поперечной скорости vy (стрейф).
+ * Отличие от заезда по X: левое переднее колесо крутится назад, чтобы получить боковое движение.
+ */
 @Autonomous
 public class MaxVelocityY extends LinearOpMode {
     DcMotor lf, rf, lb, rb, zov;

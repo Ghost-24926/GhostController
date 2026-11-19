@@ -4,9 +4,11 @@ import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+/** Тест звука: после старта dpad вправо проигрывает res/raw/kolya один раз за нажатие. */
 @Autonomous
 public class KolyaOpMode extends LinearOpMode {
     String[] sounds = new String[1];
+    /** Колбэк плеера ставит true, когда воспроизведение завершилось. */
     boolean playing = false;
 
     @Override

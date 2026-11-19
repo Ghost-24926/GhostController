@@ -11,18 +11,26 @@ import org.firstinspires.ftc.teamcode.util.KalmanFilter;
 import org.firstinspires.ftc.teamcode.util.Matrix;
 import org.opencv.core.Mat;
 
+/**
+ * Прогон фильтра Калмана по энкодеру X Pinpoint.
+ * Состояние одномерное: F и B каждый такт равны dt, управление u = 0,
+ * измерение Z — сырые тики. q и r вынесены в Dashboard, но в фильтр пока зашиты константы.
+ */
 @Configurable
 @TeleOp
 public class Kalmar extends LinearOpMode {
     GoBildaPinpointDriver pc;
     Matrix kalmanX;
     double x, vx, ax, prevX, prevVX, t, prevT = 0;
+    /** Заготовки шума процесса и измерения для подстройки с Driver Station. */
     public static double q = 1, r = 1;
+    /** Одна переменная состояния, один датчик, стартовая дисперсия 200. */
     KalmanFilter kalmanFilter = new KalmanFilter(1,1, 200);
     ElapsedTime timer = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
 
+        // H = 1: измерение напрямую равно состоянию.
         kalmanFilter.setH(1);
         kalmanFilter.setDeltas(200);
         kalmanFilter.setR(40000);

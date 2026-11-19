@@ -4,6 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+/**
+ * Проверка перевода об/мин в тики/с.
+ * Пока зажата A, мотор крутится на 4000 об/мин через setVelocity.
+ * В телеметрии сырая скорость SDK и те же тики, переведённые обратно в об/мин (28 тиков на оборот).
+ */
 @TeleOp
 public class RPMCount extends LinearOpMode {
     DcMotorEx siska;
@@ -19,6 +24,7 @@ public class RPMCount extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()){
             if (gamepad1.a){
+                // 4000 об/мин · 28 тиков/об / 60 с = тики в секунду для setVelocity.
                 siska.setVelocity((double) (4000 * 28) /60);
             }
             else{
