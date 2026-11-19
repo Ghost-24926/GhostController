@@ -5,31 +5,58 @@ import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.util.KalmanFilter;
+import org.firstinspires.ftc.teamcode.util.Matrix;
+import org.opencv.core.Mat;
 
 @Configurable
 @TeleOp
 public class Kalmar extends LinearOpMode {
     GoBildaPinpointDriver pc;
-    double x, kalmanX;
+    Matrix kalmanX;
+    double x, vx, ax, prevX, prevVX, t, prevT = 0;
     public static double q = 1, r = 1;
-    KalmanFilter kalmanFilter = new KalmanFilter(q, r);
-
+    KalmanFilter kalmanFilter = new KalmanFilter(1,1, 200);
+    ElapsedTime timer = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
+
+        kalmanFilter.setH(1);
+        kalmanFilter.setDeltas(200);
+        kalmanFilter.setR(40000);
         pc = hardwareMap.get(GoBildaPinpointDriver.class, "pc");
         pc.resetPosAndIMU();
         waitForStart();
+        timer.reset();
         while (opModeIsActive()) {
+            t = timer.seconds();
             pc.update();
             x = pc.getEncoderX();
+            double dt = t - prevT;
+            kalmanFilter.setF(dt);
+            kalmanFilter.setB(dt);
             kalmanFilter.setU(0);
-            kalmanFilter.setZ((int) x);
-            kalmanX = kalmanFilter.calculateKalmar();
+            kalmanFilter.setZ(x);
+            kalmanX = kalmanFilter.calculate();
 //            PanelsTelemetry.INSTANCE.getTelemetry().addData("x: ", x);
-            PanelsTelemetry.INSTANCE.getTelemetry().addData("kalmanX: ", kalmanX);
+            for (int i = 1; i <= kalmanX.getRows(); i++){
+                for (int j = 1; j <= kalmanX.getCols(); j++){
+                    PanelsTelemetry.INSTANCE.getTelemetry().addData("kalmanX "+ i + j , kalmanX.getMatrixElem(i,j));
+
+                }
+            }
+            PanelsTelemetry.INSTANCE.getTelemetry().addData("x ", x);
+            PanelsTelemetry.INSTANCE.getTelemetry().addData("vx ", vx);
+            PanelsTelemetry.INSTANCE.getTelemetry().addData("ax ", ax);
+
+
             PanelsTelemetry.INSTANCE.getTelemetry().update();
+
+            prevVX = vx;
+            prevX = x;
+            prevT = t;
         }
 
     }

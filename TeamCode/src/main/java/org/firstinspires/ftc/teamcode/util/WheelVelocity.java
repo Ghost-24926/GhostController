@@ -20,7 +20,7 @@ public class WheelVelocity {
         matrixR.setMatrixElem(4,1,1);
         matrixR.setMatrixElem(4,2,1);
         matrixR.setMatrixElem(4,3,(l+b));
-        matrixR.umnMatrixPerNumber(1/r);
+        matrixR = matrixR.umnMatrixPerNumber(1/r);
     }
     public Matrix omegasMat(double vx, double vy, double vo){
         matrixV.setMatrixElem(1,1,vx);

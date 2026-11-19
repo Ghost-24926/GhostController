@@ -30,7 +30,7 @@ public class CoordFormules {
         matrix2.setMatrixElem(2,1, dy);
         matrix2.setMatrixElem(3,1, dHeading);
         matrix2.multMatrixPerMatrix(matrix1);
-        matrix2.delMatrixPerNumber(wheelRadius);
+        matrix2 = matrix2.delMatrixPerNumber(wheelRadius);
     }
 
 }
