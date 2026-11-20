@@ -151,9 +151,7 @@ public class KalmanFilter {
     private void correct() {
         K = P_PREDICT.multMatrixPerMatrix(H.transpose()).multMatrixPerMatrix(H.multMatrixPerMatrix(P_PREDICT).multMatrixPerMatrix(H.transpose()).sumMatrix(R).inverse());
         X = X_PREDICT.sumMatrix(K.multMatrixPerMatrix(Z.minusMatrix(H.multMatrixPerMatrix(X_PREDICT))));
-        // БАГ (численный): P⁻ − K·H·P⁻ из-за ошибок округления постепенно теряет симметрию и положительную определённость.
-        // Надёжнее форма Джозефа: (I−KH)·P⁻·(I−KH)ᵀ + K·R·Kᵀ.
-        P = P_PREDICT.minusMatrix(K.multMatrixPerMatrix(H).multMatrixPerMatrix(P_PREDICT));
+        P = Matrix.identity(P.getCols()).minusMatrix(K.multMatrixPerMatrix(H)).multMatrixPerMatrix(P_PREDICT).multMatrixPerMatrix(Matrix.identity(P.getCols()).minusMatrix(K.multMatrixPerMatrix(H)).transpose()).sumMatrix(K.multMatrixPerMatrix(R).multMatrixPerMatrix(K.transpose()));
         P_PREVIOUS = P;
         X_PREVIOUS = X;
     }
