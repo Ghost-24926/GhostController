@@ -51,7 +51,7 @@ public class PIDOpMode extends LinearOpMode {
             pidCoefficents.setkD(kD);
             pidCoefficents.setkI(kI);
             pidCoefficents.setkP(kP);
-            feedForwardCoefs.setkA(kA);
+            feedForwardCoefs.setkS(kA);
             feedForwardCalculate.updateFeedCoefs(feedForwardCoefs);
             pidCalculate.updateCoefs(pidCoefficents);
 
