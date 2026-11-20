@@ -13,7 +13,9 @@ public class PIDCalculate {
 
 
     private PIDCoefficents pidCoefficents;
-    /** Накопленная ошибка и ошибка предыдущего такта — для I и D. */
+    /**
+     * Накопленная ошибка и ошибка предыдущего такта — для I и D.
+     */
     private float integral;
     private float previousError;
     float target;
@@ -22,19 +24,23 @@ public class PIDCalculate {
     float error;
     ElapsedTime elapsedTime;
 
+    /**
+     * Создаёт регулятор и запускает таймер для dt.
+     */
     public PIDCalculate(PIDCoefficents pidCoefficents) {
         this.pidCoefficents = pidCoefficents;
         elapsedTime = new ElapsedTime();
     }
 
-    /** Считает управляющее воздействие по текущим target и current. */
+    /**
+     * Считает управляющее воздействие по текущим target и current.
+     */
     public float calculate() {
 
         error = target - current;
+        integral += (float) (error * elapsedTime.seconds());
+        derivative = (float) ((error - previousError) / elapsedTime.seconds());
         elapsedTime.reset();
-        integral += (float) (error * elapsedTime.milliseconds());
-        derivative = (float) ((error - previousError) / elapsedTime.milliseconds());
-
         float u = pidCoefficents.getkP() * error + pidCoefficents.getkI() * integral + pidCoefficents.getkD() * derivative;
 
         previousError = error;
@@ -42,20 +48,31 @@ public class PIDCalculate {
         return u;
     }
 
-    /** Подменяет коэффициенты на лету, например из FTC Dashboard. */
-    public void updateCoefs(PIDCoefficents pidCoefficents){
+    /**
+     * Подменяет коэффициенты на лету, например из FTC Dashboard.
+     */
+    public void updateCoefs(PIDCoefficents pidCoefficents) {
         this.pidCoefficents = pidCoefficents;
     }
 
-    public void updateTarget(float target){
+    /**
+     * Задаёт цель регулятора.
+     */
+    public void updateTarget(float target) {
         this.target = target;
     }
 
+    /**
+     * Ошибка, посчитанная в последнем calculate().
+     */
     public float getError() {
         return error;
     }
 
-    public void updateCurrent(float current){
+    /**
+     * Задаёт текущее измеренное значение.
+     */
+    public void updateCurrent(float current) {
         this.current = current;
     }
 }

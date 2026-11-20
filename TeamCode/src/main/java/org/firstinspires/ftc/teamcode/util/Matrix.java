@@ -32,10 +32,12 @@ public class Matrix {
         }
     }
 
+    /** Число строк. */
     public int getRows() {
         return rows;
     }
 
+    /** Число столбцов. */
     public int getCols() {
         return cols;
     }
@@ -51,8 +53,9 @@ public class Matrix {
         return matrix[row - 1][col - 1];
     }
 
+    /** Внутренний массив элементов (индексы с 0). */
     public double[][] getMatrix() {
-        return matrix;
+        return matrix.clone();
     }
 
     /** Поэлементная сумма. Размеры должны совпадать. */

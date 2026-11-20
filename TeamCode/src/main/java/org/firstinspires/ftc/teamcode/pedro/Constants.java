@@ -9,11 +9,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+/**
+ * Настройки Pedro Pathing для этого робота: имена и направления моторов меканума
+ * и параметры одометрии Pinpoint (смещения подов в дюймах).
+ */
 public class Constants {
+    /** Должна собирать Follower из привода, локализатора и Foresight. */
+    // БАГ: всегда возвращает null — любой код, который вызовет create() и обратится к Follower, упадёт с NullPointerException.
     public static Follower create(HardwareMap h) {
         // return new Follower(Drivetrain, Localizer, Foresight);
         return null;
     }
+    /** Моторы шасси: имена в конфиге Driver Station и направления (правая сторона развёрнута). */
     public static MecanumConfig drivetrainConfig = new MecanumConfig(c -> {
         c.frontLeftName.set("lf");
         c.frontRightName.set("rf");
@@ -24,6 +31,7 @@ public class Constants {
         c.backLeftDirection.set(DcMotorSimple.Direction.FORWARD);
         c.backRightDirection.set(DcMotorSimple.Direction.REVERSE);
     });
+    /** Pinpoint "pc": тип подов, смещения от центра и направления энкодеров. */
     public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
         c.name.set("pc");
         c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD);
