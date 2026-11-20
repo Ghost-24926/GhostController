@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.util.Coefs.FeedForwardCoefs;
  * Дополняет ПИД постоянной составляющей, чтобы мотор держал нужные обороты
  * без того, чтобы всю работу делала интегральная часть.
  */
+// Todo: крч у фидфорварда вообще есть 4 коэфа: kv для скорости ka для ускорения ks для трения и kcos для угла переписать под данные переменные)
 public class FeedForwardCalculate {
     private double output, target;
 
