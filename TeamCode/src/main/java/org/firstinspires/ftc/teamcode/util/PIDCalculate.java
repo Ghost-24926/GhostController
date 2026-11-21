@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.util.Coefs.PIDCoefficents;
  * Цель и текущее значение задаются снаружи перед каждым {@link #calculate()}.
  * Интеграл и прошлая ошибка живут между вызовами, чтобы регулятор помнил историю.
  */
-// Todo: открой ctrl alt ftc и найди статью про улучшение пида
 public class PIDCalculate {
 
 
