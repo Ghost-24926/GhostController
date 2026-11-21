@@ -1,15 +1,16 @@
-package org.firstinspires.ftc.teamcode.mechanism;
+package org.firstinspires.ftc.teamcode.mechanisms;
 
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.teamcode.mechanism.Mechanism;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Base implements Mechanism {
+public class Base implements  Mechanism{
 
     private DcMotor lf, rf, lb, rb, zov;
     GoBildaPinpointDriver pc;
@@ -58,5 +59,9 @@ public class Base implements Mechanism {
     @Override
     public List<HardwareDevice> getDevices() {
         return devices;
+    }
+
+    public HardwareDevice getDevice(String pc) {
+        return null;
     }
 }

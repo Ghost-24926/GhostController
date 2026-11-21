@@ -40,32 +40,34 @@ public class CalculateVelocity {
      * pinpoint — драйвер одометрии, radius — радиус колеса пода (м),
      * y1, x2 — плечи колёс от центра (м), xSgn, ySgn — ±1 для направления энкодеров.
      */
-    //TODO: Добавить параметр настроек тиков для 50 строки, т.К. не всегда 28 тиков у энкодеров
     public CalculateVelocity(GoBildaPinpointDriver pinpoint, double radius, double y1, double x2, int xSgn, int ySgn) {
         this.pinpoint = pinpoint;
         this.y1 = y1;
         this.x2 = x2;
         this.xSgn = xSgn;
         this.ySgn = ySgn;
-        this.metersPerTick = 2.0 * Math.PI * radius / 28;
+        this.metersPerTick = Math.PI * radius / 2000;
+    }
+    /**
+     * Нормализует угол в радианах в диапазон [-π, π).
+     * Нужна, потому что Pinpoint может отдавать накопленный угол
+     * (после пары оборотов робота, например, 7.5 рад вместо 1.22).
+     */
+    public static double normalizeRadians(double angle) {
+        angle = (angle + Math.PI) % (2 * Math.PI);
+        if (angle < 0) angle += 2 * Math.PI; // % в Java сохраняет знак делимого
+        return angle - Math.PI;
     }
 
     /**
      * Продольная скорость, м/с: прирост энкодера X минус вклад поворота на плече y1.
      */
-    //TODO: Вынести обновление пинпоинта во вне, чтобы читать все данные разом строка 59
     public double getVx() {
-
-        pinpoint.update();
-
         int newX = pinpoint.getEncoderX();
-        double heading = pinpoint.getHeading(AngleUnit.RADIANS);
+        double heading = normalizeRadians(pinpoint.getHeading(AngleUnit.RADIANS));
         long newTime = System.nanoTime();
         dt = (newTime - oldTimeX) * Math.pow(10, -9);
-
-        //TODO: выводишь не в м а в тики * время
-        double wheelOffField = xSgn * (newX - xCoord) * dt;
-        //Todo: клод подсказал что pinpoint возвращает не нормализованный угол, нужно написать функцию нормализации угла - можно спросииь у меня
+        double wheelOffField = xSgn * (newX - xCoord) * metersPerTick;
         double deltaHeading = heading - oldHeadingX;
         double deltaX = wheelOffField + y1 * deltaHeading;
 
@@ -78,16 +80,13 @@ public class CalculateVelocity {
     /**
      * Поперечная скорость, м/с: прирост энкодера Y минус вклад поворота на плече x2.
      */
-    //TODO: аналогично vx
     public double getVy() {
-        pinpoint.update();
-
         int newY = pinpoint.getEncoderY();
-        double heading = pinpoint.getHeading(AngleUnit.RADIANS);
+        double heading = normalizeRadians(pinpoint.getHeading(AngleUnit.RADIANS));
         long newTime = System.nanoTime();
         dt = (newTime - oldTimeY) * Math.pow(10, -9);
 
-        double wheelOffField = ySgn * (newY - yCoord) * dt;
+        double wheelOffField = ySgn * (newY - yCoord) * metersPerTick;
         double deltaHeading = heading - oldHeadingY;
         double deltaY = wheelOffField + x2 * deltaHeading;
 
@@ -101,11 +100,8 @@ public class CalculateVelocity {
     /**
      * Угловая скорость, рад/с: разность курса Pinpoint, делённая на время между вызовами.
      */
-    //Todo: Нормалзация аналогично vx и vy
     public double getOmega()  {
-        pinpoint.update();
-
-        double heading = pinpoint.getHeading(AngleUnit.RADIANS);
+        double heading = normalizeRadians(pinpoint.getHeading(AngleUnit.RADIANS));
         long newTime = System.nanoTime();
 
 
